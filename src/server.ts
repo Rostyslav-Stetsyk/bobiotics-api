@@ -3,6 +3,7 @@ import app from './app';
 import swaggerUi from 'swagger-ui-express';
 import 'dotenv/config';
 import swaggerDocs from './config/swagger';
+import { NextFunction, Request, Response } from 'express';
 
 const PORT = process.env.PORT || 3000;
 
@@ -13,6 +14,19 @@ if (process.env.NODE_ENV !== 'production') {
 	console.log(`Swagger Docs available at http://localhost:${PORT}/api/docs 📄`);
 }
 
-app.listen(PORT, () => {
-	console.log(`Server is running http://localhost:${PORT} 🚀`);
+app.use((req, res) => {
+	res.status(404).json({ message: 'Not found' });
 });
+
+app.use(
+	(
+		{ status = 500, message = 'Server error' },
+		req: Request,
+		res: Response,
+		next: NextFunction
+	) => {
+		res.status(status).json({ message });
+	}
+);
+
+app.listen(PORT);

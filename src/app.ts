@@ -1,10 +1,10 @@
-import testRouter from './routes/testRoutes';
+import deliveryRouter from './routes/delivery.router';
 import express from 'express';
 
 const app = express();
 
 app.use(express.json());
 
-app.use('/api', testRouter);
+app.use('/api/delivery', deliveryRouter);
 
 export default app;
